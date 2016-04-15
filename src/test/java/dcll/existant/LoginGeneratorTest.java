@@ -47,4 +47,30 @@ public class LoginGeneratorTest {
         loginService.addLogin(loginGenerator.generateLoginForNomAndPrenom("Dùrand","Paul"));
         assertEquals(true,loginService.loginExists("PDUR"));
     }
+
+    /**
+     * teste Correction de l'application premier cas
+     * @throws Exception exception lancer c as echoue
+     */
+    @Test
+    public void testGenerateLoginForNomAndPrenom4() throws Exception {
+
+        //quand on génère le login de "Paul Du", on vérifie que le login
+        // généré et ajouté à la liste des logins existants est "PDUR".
+        loginService.addLogin(loginGenerator.generateLoginForNomAndPrenom("Du","Paul"));
+        assertEquals(true,loginService.loginExists("PDU"));
+    }
+
+    /**
+     * teste Correction de l'application 2 cas
+     * @throws Exception exception lancer c as echoue
+     */
+    @Test
+    public void testGenerateLoginForNomAndPrenom5() throws Exception {
+
+        //quand on génère le login de "John Ralling", on vérifie que le login
+        // généré et ajouté à la liste des logins existants est "PDUR".
+        loginService.addLogin(loginGenerator.generateLoginForNomAndPrenom("Ralling","John"));
+        assertEquals(true,loginService.loginExists("JRAL2"));
+    }
 }

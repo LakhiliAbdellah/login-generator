@@ -8,6 +8,9 @@ import java.util.regex.Pattern;
  */
 public class LoginGenerator {
 
+    /**
+     * une reference vers le loginService.
+     */
     private LoginService loginService;
 
     /**
@@ -15,7 +18,8 @@ public class LoginGenerator {
      *
      * @param loginSer le service de login
      */
-    public LoginGenerator(final LoginService loginSer) {
+    public LoginGenerator(
+            final LoginService loginSer) {
         this.loginService = loginSer;
     }
 
@@ -39,12 +43,27 @@ public class LoginGenerator {
      * @param prenom le prenom
      * @return le login genere
      */
-    public String generateLoginForNomAndPrenom(String nom, String prenom) {
-        String p = deAccent(prenom.substring(0, 1).toUpperCase());
-        String n = deAccent(nom.substring(0, 3).toUpperCase());
-        String login = p + n;
-        if (loginService.loginExists(login)) {
-            login = login + "1";
+    public String generateLoginForNomAndPrenom(final String nom,
+                                               final String prenom) {
+        String p;
+        String n;
+        String login;
+
+        p = deAccent(prenom.substring(0, 1).toUpperCase());
+        //si la taille du nom est >3
+        if (nom.length() >= 3) {
+            n = deAccent(nom.substring(0, 3).toUpperCase());
+        } else {
+            n = deAccent(nom.substring(0, nom.length()).toUpperCase());
+        }
+
+        login = p + n;
+        //souvegarfer le login initial
+        String loginInitial = login;
+        int i = 1;
+        while (loginService.loginExists(login)) {
+            login = loginInitial + i;
+            i++;
         }
         loginService.addLogin(login);
         return login;
@@ -56,8 +75,9 @@ public class LoginGenerator {
      * @param str la chaine de caractere
      * @return la chaine de caractere sans accents
      */
-    private String deAccent(String str) {
-        String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+    private String deAccent(final String str) {
+        String nfdNormalizedString = Normalizer.normalize(str,
+                Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         return pattern.matcher(nfdNormalizedString).replaceAll("");
     }

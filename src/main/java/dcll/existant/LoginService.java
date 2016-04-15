@@ -10,7 +10,9 @@ import java.util.List;
  * Classe de service permettant la gestion des login.
  */
 public class LoginService {
-
+    /**
+     * contient touts les logins existants.
+     */
     private ArrayList<String> loginsExistants;
 
     /**
@@ -38,7 +40,7 @@ public class LoginService {
      *
      * @param login le login a ajouter
      */
-    public void addLogin(String login) {
+    public void addLogin(final String login) {
         loginsExistants.add(login);
     }
 
@@ -48,7 +50,7 @@ public class LoginService {
      * @param pref le prefixe
      * @return la liste des logins prefixes par <em>pref</em>
      */
-    public List<String> findAllLoginsStartingWith(String pref) {
+    public List<String> findAllLoginsStartingWith(final String pref) {
         ArrayList<String> loginsPrefixes = new ArrayList<String>();
         for (String login : loginsExistants) {
             if (login.startsWith(pref)) {
@@ -59,7 +61,7 @@ public class LoginService {
     }
 
     /**
-     * Recherche tous les logins
+     * Recherche tous les logins.
      *
      * @return la liste de tous les logins
      */
